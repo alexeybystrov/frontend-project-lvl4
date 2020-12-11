@@ -1,14 +1,14 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
 
-import Channels from './Channels.jsx';
+import App from './components/App.jsx';
 
 export default (gon) => {
   const { channels } = gon;
-  const mountNode = document.getElementById('react-root');
+  const mountNode = document.getElementById('chat');
 
   ReactDOM.render(
-    <Channels channels={channels} />,
+    <App channels={channels} />,
     mountNode,
   );
 };
