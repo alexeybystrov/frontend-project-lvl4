@@ -17,11 +17,11 @@ const messages = createReducer([], (builder) => {
     .addCase(actions.sendNewMessageSuccess, (state, { payload }) => {
       // console.log(payload);
       const {
-        message, userName, channelId, id,
+        body, username, channelId, id,
       } = payload.data.attributes;
       const newMessage = {
-        message,
-        userName,
+        body,
+        username,
         channelId,
         id,
       };

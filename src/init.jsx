@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import cookies from 'js-cookie';
 import { fake } from 'faker';
 import App from './components/App.jsx';
+import UserContext from './UserContext.js';
 // import * as actions from './actions/index.js';
 import rootReducer from './reducers/index.js';
 
@@ -25,7 +26,9 @@ export default (gon) => {
 
   ReactDOM.render(
     <Provider store={store}>
-      <App />
+      <UserContext.Provider value={{ username: cookies.get('username') }}>
+        <App />
+      </UserContext.Provider>
     </Provider>, document.getElementById('chat'),
   );
 };

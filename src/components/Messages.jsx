@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Formik, Field, Form } from 'formik';
 import * as actions from '../actions/index.js';
+import UserContext from '../UserContext.js';
 
 const mapStateToProps = (state) => {
   const { currentChannelId, messages } = state;
@@ -13,8 +14,9 @@ const actionCreators = {
 };
 
 const Messages = ({ currentChannelId, messages, sendNewMessage }) => {
-  const handleSubmit = async (values, formikActions) => {
-    const payload = { message: values.body, userName: 'user.name' };
+  const handleSubmit = ({ username }) => async (values, formikActions) => {
+    console.log(username);
+    const payload = { body: values.body, username };
     try {
       await sendNewMessage(currentChannelId, payload);
       formikActions.resetForm();
@@ -27,10 +29,10 @@ const Messages = ({ currentChannelId, messages, sendNewMessage }) => {
   const renderMessages = () => (
     messages
       .filter(({ channelId }) => channelId === currentChannelId)
-      .map(({ message, userName, id }) => (
+      .map(({ body, username, id }) => (
         <div className="text-break" key={id}>
-          <b>{userName}</b>
-          {`: ${message}`}
+          <b>{username}</b>
+          {`: ${body}`}
         </div>
       ))
   );
@@ -42,33 +44,33 @@ const Messages = ({ currentChannelId, messages, sendNewMessage }) => {
           {renderMessages()}
         </div>
         <div className="mt-auto">
-          <Formik
-            initialValues={{ body: '' }}
-            onSubmit={handleSubmit}
-          >
-            {(props) => (
-              <Form>
-                <div className="form-group">
-                  <div className="input-group">
-                    <Field
-                      name="body"
-                      aria-label="body"
-                      className="mr-2 form-control"
-                    />
-                    <button
-                      aria-label="submit"
-                      type="submit"
-                      className="btn btn-primary"
-                      disabled={props.isSubmitting}
-                    >
-                      Submit
-                    </button>
-                    <div className="d-block invalid-feedback">&nbsp;</div>
-                  </div>
-                </div>
-              </Form>
+          <UserContext.Consumer>
+            {(username) => (
+              <Formik
+                initialValues={{ body: '' }}
+                onSubmit={handleSubmit(username)}
+              >
+                {({ isSubmitting }) => (
+                  <Form>
+                    <div className="form-group">
+                      <div className="input-group">
+                        <Field name="body" aria-label="body" className="mr-2 form-control" />
+                        <button
+                          aria-label="submit"
+                          type="submit"
+                          className="btn btn-primary"
+                          disabled={isSubmitting}
+                        >
+                          Submit
+                        </button>
+                        <div className="d-block invalid-feedback">&nbsp;</div>
+                      </div>
+                    </div>
+                  </Form>
+                )}
+              </Formik>
             )}
-          </Formik>
+          </UserContext.Consumer>
         </div>
       </div>
     </div>
