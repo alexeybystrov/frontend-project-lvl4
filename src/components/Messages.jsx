@@ -15,7 +15,7 @@ const actionCreators = {
 
 const Messages = ({ currentChannelId, messages, sendNewMessage }) => {
   const handleSubmit = ({ username }) => async (values, formikActions) => {
-    console.log(username);
+    // console.log(username);
     const payload = { body: values.body, username };
     try {
       await sendNewMessage(currentChannelId, payload);
@@ -23,7 +23,7 @@ const Messages = ({ currentChannelId, messages, sendNewMessage }) => {
     } catch (e) {
       console.error(e);
     }
-    console.log(messages);
+    // console.log(messages);
   };
 
   const renderMessages = () => (

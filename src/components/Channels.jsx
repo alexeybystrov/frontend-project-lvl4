@@ -13,6 +13,7 @@ const actionCreators = {
 };
 
 const Channels = ({ currentChannelId, channels, setCurrentChannelId }) => {
+  // console.log(channels);
   const handleSetCurrentChannelId = (id) => () => {
     setCurrentChannelId({ id });
   };

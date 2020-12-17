@@ -4,9 +4,10 @@ import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import cookies from 'js-cookie';
 import { fake } from 'faker';
+import io from 'socket.io-client';
 import App from './components/App.jsx';
 import UserContext from './UserContext.js';
-// import * as actions from './actions/index.js';
+import * as actions from './actions/index.js';
 import rootReducer from './reducers/index.js';
 
 if (!cookies.get('username')) {
@@ -21,8 +22,12 @@ export default (gon) => {
     reducer: rootReducer,
     preloadedState,
   });
-
   // store.dispatch(actions.setInitialState(gon));
+
+  const socket = io();
+  socket.on('newMessage', (newMessage) => {
+    store.dispatch(actions.sendNewMessageSuccess(newMessage));
+  });
 
   ReactDOM.render(
     <Provider store={store}>
