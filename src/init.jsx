@@ -22,7 +22,7 @@ export default (gon) => {
     reducer: rootReducer,
     preloadedState,
   });
-  //// store.dispatch(actions.setInitialState(gon));
+  // store.dispatch(actions.setInitialState(gon));
 
   const socket = io();
   socket.on('newMessage', (newMessage) => {
