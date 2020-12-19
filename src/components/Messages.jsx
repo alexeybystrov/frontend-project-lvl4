@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { connect } from 'react-redux';
 import { Formik, Field, Form } from 'formik';
 import * as actions from '../actions/index.js';
@@ -14,8 +14,10 @@ const actionCreators = {
 };
 
 const Messages = ({ currentChannelId, messages, sendNewMessage }) => {
-  const handleSubmit = ({ username }) => async (values, formikActions) => {
-    // console.log(username);
+  const context = useContext(UserContext);
+
+  const handleSubmit = async (values, formikActions) => {
+    const { username } = context;
     const payload = { body: values.body, username };
     try {
       await sendNewMessage(currentChannelId, payload);
@@ -44,33 +46,33 @@ const Messages = ({ currentChannelId, messages, sendNewMessage }) => {
           {renderMessages()}
         </div>
         <div className="mt-auto">
-          <UserContext.Consumer>
-            {(username) => (
-              <Formik
-                initialValues={{ body: '' }}
-                onSubmit={handleSubmit(username)}
-              >
-                {({ isSubmitting }) => (
-                  <Form>
-                    <div className="form-group">
-                      <div className="input-group">
-                        <Field name="body" aria-label="body" className="mr-2 form-control" />
-                        <button
-                          aria-label="submit"
-                          type="submit"
-                          className="btn btn-primary"
-                          disabled={isSubmitting}
-                        >
-                          Submit
-                        </button>
-                        <div className="d-block invalid-feedback">&nbsp;</div>
-                      </div>
-                    </div>
-                  </Form>
-                )}
-              </Formik>
+          <Formik
+            initialValues={{ body: '' }}
+            onSubmit={handleSubmit}
+          >
+            {({ isSubmitting }) => (
+              <Form>
+                <div className="form-group">
+                  <div className="input-group">
+                    <Field
+                      name="body"
+                      aria-label="body"
+                      className="mr-2 form-control"
+                    />
+                    <button
+                      aria-label="submit"
+                      type="submit"
+                      className="btn btn-primary"
+                      disabled={isSubmitting}
+                    >
+                      Submit
+                    </button>
+                    <div className="d-block invalid-feedback">&nbsp;</div>
+                  </div>
+                </div>
+              </Form>
             )}
-          </UserContext.Consumer>
+          </Formik>
         </div>
       </div>
     </div>

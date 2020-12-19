@@ -11,7 +11,7 @@ import * as actions from './actions/index.js';
 import rootReducer from './reducers/index.js';
 
 if (!cookies.get('username')) {
-  const username = fake('{{name.lastName}} {{name.firstName}}');
+  const username = fake('{{name.firstName}} {{name.lastName}}');
   cookies.set('username', username);
 }
 
