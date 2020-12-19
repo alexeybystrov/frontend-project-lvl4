@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useCallback } from 'react';
 import { connect } from 'react-redux';
 import { Formik, Field, Form } from 'formik';
 import * as actions from '../actions/index.js';
@@ -39,6 +39,12 @@ const Messages = ({ currentChannelId, messages, sendNewMessage }) => {
       ))
   );
 
+  const callbackRef = useCallback((inputElement) => {
+    if (inputElement) {
+      inputElement.focus();
+    }
+  });
+
   return (
     <div className="col h-100">
       <div className="d-flex flex-column h-100">
@@ -58,6 +64,7 @@ const Messages = ({ currentChannelId, messages, sendNewMessage }) => {
                       name="body"
                       aria-label="body"
                       className="mr-2 form-control"
+                      innerRef={callbackRef}
                     />
                     <button
                       aria-label="submit"
