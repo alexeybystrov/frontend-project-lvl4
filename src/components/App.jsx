@@ -1,12 +1,18 @@
 // import { Field } from 'formik';
 import React from 'react';
 import Channels from './Channels.jsx';
-import Messages from './Messages.jsx';
+import MessagesList from './MessagesList.jsx';
+import MessagesForm from './MessagesForm.jsx';
 
 const App = () => (
   <div className="row h-100 pb-3">
     <Channels />
-    <Messages />
+    <div className="col h-100">
+      <div className="d-flex flex-column h-100">
+        <MessagesList />
+        <MessagesForm />
+      </div>
+    </div>
   </div>
 );
 export default App;
