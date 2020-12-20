@@ -29,4 +29,17 @@ const currentChannelId = createReducer('', (builder) => {
     .addCase(actions.setCurrentChannelId, (state, { payload }) => payload.id);
 });
 
-export default { channels, messages, currentChannelId };
+const modal = createReducer(
+  { isOpened: false, type: null, extra: null },
+  (builder) => {
+    builder
+      .addCase(actions.toggleModal, (state) => {
+        const { isOpened } = state;
+        return { ...state, isOpened: !isOpened };
+      });
+  },
+);
+
+export default {
+  channels, messages, currentChannelId, modal,
+};

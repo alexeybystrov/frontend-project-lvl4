@@ -15,3 +15,5 @@ export const sendNewMessage = (channelId, payload) => async (/* dispatch */) => 
   // console.log('lala', response.data);
   // dispatch(sendNewMessageSuccess(response.data));
 };
+
+export const toggleModal = createAction('MODAL_TOGGLE');

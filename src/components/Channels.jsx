@@ -10,10 +10,16 @@ const mapStateToProps = (state) => {
 
 const actionCreators = {
   setCurrentChannelId: actions.setCurrentChannelId,
+  toggleModal: actions.toggleModal,
 };
 
-const Channels = ({ currentChannelId, channels, setCurrentChannelId }) => {
-  // console.log(channels);
+const Channels = ({
+  currentChannelId, channels, setCurrentChannelId, toggleModal,
+}) => {
+  const handleAddChannel = () => {
+    toggleModal();
+  };
+
   const handleSetCurrentChannelId = (id) => () => {
     setCurrentChannelId({ id });
   };
@@ -27,7 +33,7 @@ const Channels = ({ currentChannelId, channels, setCurrentChannelId }) => {
     <div className="col-3 border-right">
       <div className="d-flex mb-2">
         <span>Channels</span>
-        <button type="button" className="ml-auto p-0 btn btn-link">+</button>
+        <button type="button" className="ml-auto p-0 btn btn-link" onClick={handleAddChannel}>+</button>
       </div>
       <ul className="nav flex-column nav-pills nav-fill">
         {channels.map(({ id, name }) => (
