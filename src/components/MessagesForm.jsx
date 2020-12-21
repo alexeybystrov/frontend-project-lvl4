@@ -47,7 +47,6 @@ const MessagesForm = ({ currentChannelId, sendNewMessage }) => {
               <div className="input-group">
                 <Field
                   name="body"
-                  aria-label="body"
                   className="mr-2 form-control"
                   innerRef={inputElement}
                 />
@@ -59,7 +58,7 @@ const MessagesForm = ({ currentChannelId, sendNewMessage }) => {
                 >
                   Submit
                 </button>
-                <div className="d-block invalid-feedback">&nbsp;</div>
+                {/* <div className="d-block invalid-feedback">&nbsp;</div> */}
               </div>
             </div>
           </Form>

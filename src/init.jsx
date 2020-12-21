@@ -28,6 +28,10 @@ export default (gon) => {
   socket.on('newMessage', (newMessage) => {
     store.dispatch(actions.sendNewMessageSuccess(newMessage));
   });
+  socket.on('newChannel', (newChannel) => {
+    console.log(newChannel);
+    store.dispatch(actions.addNewChannelSuccess(newChannel));
+  });
 
   ReactDOM.render(
     <Provider store={store}>

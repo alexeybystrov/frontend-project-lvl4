@@ -10,10 +10,11 @@ const mapStateToProps = (state) => {
 };
 
 const actionCreators = {
-  toggleModal: actions.toggleModal,
+  closeModal: actions.closeModal,
+  addNewChannel: actions.addNewChannel,
 };
 
-const CommonModal = ({ toggleModal, modal }) => {
+const CommonModal = ({ modal, closeModal, addNewChannel }) => {
   const inputElement = useRef(null);
 
   useEffect(() => {
@@ -22,14 +23,22 @@ const CommonModal = ({ toggleModal, modal }) => {
     }
   });
 
-  const handleToggle = () => {
-    toggleModal();
+  const handleCloseModal = () => {
+    closeModal();
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = async (values) => {
+    const payload = { name: values.body };
+    try {
+      await addNewChannel(payload);
+      closeModal();
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   return (
-    <Modal show={modal.isOpened} onHide={handleToggle}>
+    <Modal show={modal.isOpened} onHide={handleCloseModal}>
       <Modal.Header closeButton>
         <Modal.Title>Add channel</Modal.Title>
       </Modal.Header>
@@ -45,12 +54,13 @@ const CommonModal = ({ toggleModal, modal }) => {
                   name="body"
                   className="mb-2 form-control"
                   innerRef={inputElement}
+                  required
                 />
                 <div className="d-flex justify-content-end">
                   <button
                     type="button"
                     className="mr-2 btn btn-secondary"
-                    onClick={handleToggle}
+                    onClick={handleCloseModal}
                     disabled={isSubmitting}
                   >
                     Cancel
