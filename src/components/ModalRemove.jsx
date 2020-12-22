@@ -1,6 +1,5 @@
 import React, { useRef, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Formik, Field, Form } from 'formik';
 import { Modal } from 'react-bootstrap';
 import * as actions from '../actions/index.js';
 
@@ -11,10 +10,10 @@ const mapStateToProps = (state) => {
 
 const actionCreators = {
   closeModal: actions.closeModal,
-  addNewChannel: actions.addNewChannel,
+  removeChannel: actions.removeChannel,
 };
 
-const ModalAdd = ({ closeModal, addNewChannel }) => {
+const ModalRemove = ({ closeModal, removeChannel, modal }) => {
   const inputElement = useRef(null);
 
   useEffect(() => {
@@ -27,10 +26,10 @@ const ModalAdd = ({ closeModal, addNewChannel }) => {
     closeModal();
   };
 
-  const handleSubmit = async (values) => {
-    const payload = { name: values.body };
+  const handleRemoveChannel = async () => {
+    const payload = { id: modal.extra };
     try {
-      await addNewChannel(payload);
+      await removeChannel(payload);
       closeModal();
     } catch (e) {
       console.error(e);
@@ -40,46 +39,29 @@ const ModalAdd = ({ closeModal, addNewChannel }) => {
   return (
     <>
       <Modal.Header closeButton>
-        <Modal.Title>Add channel</Modal.Title>
+        <Modal.Title>Remove channel</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Formik
-          initialValues={{ body: '' }}
-          onSubmit={handleSubmit}
-        >
-          {({ isSubmitting }) => (
-            <Form>
-              <div className="form-group">
-                <Field
-                  name="body"
-                  className="mb-2 form-control"
-                  innerRef={inputElement}
-                  required
-                />
-                <div className="d-flex justify-content-end">
-                  <button
-                    type="button"
-                    className="mr-2 btn btn-secondary"
-                    onClick={handleCloseModal}
-                    disabled={isSubmitting}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className="btn btn-primary"
-                    disabled={isSubmitting}
-                  >
-                    Submit
-                  </button>
-                </div>
-              </div>
-            </Form>
-          )}
-        </Formik>
+        Are you sure?
+        <div className="d-flex justify-content-between">
+          <button
+            type="button"
+            className="mr-2 btn btn-secondary"
+            onClick={handleCloseModal}
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className="btn btn-danger"
+            onClick={handleRemoveChannel}
+          >
+            Confirm
+          </button>
+        </div>
       </Modal.Body>
     </>
   );
 };
 
-export default connect(mapStateToProps, actionCreators)(ModalAdd);
+export default connect(mapStateToProps, actionCreators)(ModalRemove);

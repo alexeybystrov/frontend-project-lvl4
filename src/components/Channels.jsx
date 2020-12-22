@@ -27,6 +27,15 @@ const Channels = ({
     openModal(payload);
   };
 
+  const handleRemoveChannel = (id) => () => {
+    const payload = {
+      isOpened: true,
+      type: 'removeChannel',
+      extra: id,
+    };
+    openModal(payload);
+  };
+
   const handleSetCurrentChannelId = (id) => () => {
     setCurrentChannelId({ id });
   };
@@ -46,7 +55,7 @@ const Channels = ({
       </Nav.Link>
       <Dropdown.Toggle split variant={setVariant(id)} className="flex-grow-0" />
       <Dropdown.Menu>
-        <Dropdown.Item href="#">Remove</Dropdown.Item>
+        <Dropdown.Item href="#" onClick={handleRemoveChannel(id)}>Remove</Dropdown.Item>
         <Dropdown.Item href="#">Rename</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>

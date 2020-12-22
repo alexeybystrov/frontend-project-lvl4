@@ -31,6 +31,9 @@ export default (gon) => {
   socket.on('newChannel', (newChannel) => {
     store.dispatch(actions.addNewChannelSuccess(newChannel));
   });
+  socket.on('removeChannel', (data) => {
+    store.dispatch(actions.removeChannelSuccess(data));
+  });
 
   ReactDOM.render(
     <Provider store={store}>

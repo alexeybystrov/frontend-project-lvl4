@@ -4,11 +4,6 @@ import { Formik, Field, Form } from 'formik';
 import { Modal } from 'react-bootstrap';
 import * as actions from '../actions/index.js';
 
-const mapStateToProps = (state) => {
-  const { modal } = state;
-  return { modal };
-};
-
 const actionCreators = {
   closeModal: actions.closeModal,
   addNewChannel: actions.addNewChannel,
@@ -82,4 +77,4 @@ const ModalAdd = ({ closeModal, addNewChannel }) => {
   );
 };
 
-export default connect(mapStateToProps, actionCreators)(ModalAdd);
+export default connect(null, actionCreators)(ModalAdd);
