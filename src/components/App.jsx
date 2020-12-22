@@ -3,7 +3,7 @@ import React from 'react';
 import Channels from './Channels.jsx';
 import MessagesList from './MessagesList.jsx';
 import MessagesForm from './MessagesForm.jsx';
-import CommonModal from './CommonModal.jsx';
+import ParentModal from './ParentModal.jsx';
 
 const App = () => (
   <div className="row h-100 pb-3">
@@ -14,7 +14,7 @@ const App = () => (
         <MessagesForm />
       </div>
     </div>
-    <CommonModal />
+    <ParentModal />
   </div>
 );
 export default App;

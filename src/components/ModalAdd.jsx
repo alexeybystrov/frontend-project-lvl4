@@ -14,7 +14,7 @@ const actionCreators = {
   addNewChannel: actions.addNewChannel,
 };
 
-const CommonModal = ({ modal, closeModal, addNewChannel }) => {
+const ModalAdd = ({ closeModal, addNewChannel }) => {
   const inputElement = useRef(null);
 
   useEffect(() => {
@@ -38,7 +38,7 @@ const CommonModal = ({ modal, closeModal, addNewChannel }) => {
   };
 
   return (
-    <Modal show={modal.isOpened} onHide={handleCloseModal}>
+    <>
       <Modal.Header closeButton>
         <Modal.Title>Add channel</Modal.Title>
       </Modal.Header>
@@ -78,8 +78,8 @@ const CommonModal = ({ modal, closeModal, addNewChannel }) => {
           )}
         </Formik>
       </Modal.Body>
-    </Modal>
+    </>
   );
 };
 
-export default connect(mapStateToProps, actionCreators)(CommonModal);
+export default connect(mapStateToProps, actionCreators)(ModalAdd);

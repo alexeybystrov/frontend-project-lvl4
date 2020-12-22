@@ -1,8 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import cn from 'classnames';
 import {
-  SplitButton, Dropdown, Button, ButtonGroup, Nav,
+  Dropdown, Button, ButtonGroup, Nav,
 } from 'react-bootstrap';
 import * as actions from '../actions/index.js';
 
@@ -20,7 +19,12 @@ const Channels = ({
   currentChannelId, channels, setCurrentChannelId, openModal,
 }) => {
   const handleAddChannel = () => {
-    openModal();
+    const payload = {
+      isOpened: true,
+      type: 'addChannel',
+      extra: null,
+    };
+    openModal(payload);
   };
 
   const handleSetCurrentChannelId = (id) => () => {
@@ -30,26 +34,22 @@ const Channels = ({
   const setVariant = (id) => (id === currentChannelId ? 'primary' : 'light');
 
   const renderRegularButton = (id, name) => (
-    <Nav.Item as="li" key={id}>
-      <Nav.Link as={Button} variant={setVariant(id)} onClick={handleSetCurrentChannelId(id)} className="mb-2 text-left" block>
-        {name}
-      </Nav.Link>
-    </Nav.Item>
+    <Nav.Link as={Button} variant={setVariant(id)} onClick={handleSetCurrentChannelId(id)} className="mb-2 text-left" block>
+      {name}
+    </Nav.Link>
   );
 
   const renderRemovableButton = (id, name) => (
-    <Nav.Item as="li" key={id}>
-      <Dropdown as={ButtonGroup} className="d-flex mb-2">
-        <Button variant={setVariant(id)} onClick={handleSetCurrentChannelId(id)} className="text-left flex-grow-1 nav-link">
-          {name}
-        </Button>
-        <Dropdown.Toggle split variant={setVariant(id)} className="flex-grow-0" />
-        <Dropdown.Menu>
-          <Dropdown.Item href="#/action-1">Remove</Dropdown.Item>
-          <Dropdown.Item href="#/action-2">Rename</Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
-    </Nav.Item>
+    <Dropdown as={ButtonGroup} className="d-flex mb-2">
+      <Nav.Link as={Button} variant={setVariant(id)} onClick={handleSetCurrentChannelId(id)} className="text-left flex-grow-1">
+        {name}
+      </Nav.Link>
+      <Dropdown.Toggle split variant={setVariant(id)} className="flex-grow-0" />
+      <Dropdown.Menu>
+        <Dropdown.Item href="#">Remove</Dropdown.Item>
+        <Dropdown.Item href="#">Rename</Dropdown.Item>
+      </Dropdown.Menu>
+    </Dropdown>
   );
 
   const buttonRenderMapping = {
@@ -64,7 +64,11 @@ const Channels = ({
         <button type="button" className="ml-auto p-0 btn btn-link" onClick={handleAddChannel}>+</button>
       </div>
       <ul className="nav flex-column nav-pills nav-fill">
-        {channels.map(({ id, name, removable }) => buttonRenderMapping[removable](id, name))}
+        {channels.map(({ removable, id, name }) => (
+          <Nav.Item as="li" key={id}>
+            {buttonRenderMapping[removable](id, name)}
+          </Nav.Item>
+        ))}
       </ul>
     </div>
   );
