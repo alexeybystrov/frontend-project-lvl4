@@ -5,8 +5,8 @@ import { Modal } from 'react-bootstrap';
 import * as actions from '../actions/index.js';
 
 const mapStateToProps = (state) => {
-  const { modal } = state;
-  return { modal };
+  const { modal, channels } = state;
+  return { modal, channels };
 };
 
 const actionCreators = {
@@ -14,12 +14,18 @@ const actionCreators = {
   renameChannel: actions.renameChannel,
 };
 
-const ModalRename = ({ closeModal, renameChannel, modal }) => {
+const ModalRename = ({
+  closeModal, renameChannel, modal, channels,
+}) => {
+  const currentChannelName = channels.find(({ id }) => id === modal.extra.channelId).name;
+  console.log(currentChannelName);
+
   const inputElement = useRef(null);
 
   useEffect(() => {
     if (inputElement.current) {
       inputElement.current.focus();
+      inputElement.current.select();
     }
   });
 
@@ -28,7 +34,7 @@ const ModalRename = ({ closeModal, renameChannel, modal }) => {
   };
 
   const handleSubmit = async (values) => {
-    const payload = { name: values.body, id: modal.extra };
+    const payload = { name: values.body, id: modal.extra.channelId };
     try {
       await renameChannel(payload);
       closeModal();
@@ -44,7 +50,7 @@ const ModalRename = ({ closeModal, renameChannel, modal }) => {
       </Modal.Header>
       <Modal.Body>
         <Formik
-          initialValues={{ body: '' }}
+          initialValues={{ body: currentChannelName }}
           onSubmit={handleSubmit}
         >
           {({ isSubmitting }) => (

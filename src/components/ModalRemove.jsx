@@ -19,7 +19,7 @@ const ModalRemove = ({ closeModal, removeChannel, modal }) => {
   };
 
   const handleRemoveChannel = async () => {
-    const payload = { id: modal.extra };
+    const payload = { id: modal.extra.channelId };
     try {
       await removeChannel(payload);
       closeModal();

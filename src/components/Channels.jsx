@@ -27,20 +27,20 @@ const Channels = ({
     openModal(payload);
   };
 
-  const handleRemoveChannel = (id) => () => {
+  const handleRemoveChannel = (channelId) => () => {
     const payload = {
       isOpened: true,
       type: 'removeChannel',
-      extra: id,
+      extra: { channelId },
     };
     openModal(payload);
   };
 
-  const handleRenameChannel = (id) => () => {
+  const handleRenameChannel = (channelId) => () => {
     const payload = {
       isOpened: true,
       type: 'renameChannel',
-      extra: id,
+      extra: { channelId },
     };
     openModal(payload);
   };
