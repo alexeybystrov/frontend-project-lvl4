@@ -11,10 +11,10 @@ const mapStateToProps = (state) => {
 
 const actionCreators = {
   closeModal: actions.closeModal,
-  addNewChannel: actions.addNewChannel,
+  renameChannel: actions.renameChannel,
 };
 
-const ModalAdd = ({ closeModal, addNewChannel }) => {
+const ModalRename = ({ closeModal, renameChannel, modal }) => {
   const inputElement = useRef(null);
 
   useEffect(() => {
@@ -28,9 +28,9 @@ const ModalAdd = ({ closeModal, addNewChannel }) => {
   };
 
   const handleSubmit = async (values) => {
-    const payload = { name: values.body };
+    const payload = { name: values.body, id: modal.extra };
     try {
-      await addNewChannel(payload);
+      await renameChannel(payload);
       closeModal();
     } catch (e) {
       console.error(e);
@@ -40,7 +40,7 @@ const ModalAdd = ({ closeModal, addNewChannel }) => {
   return (
     <>
       <Modal.Header closeButton>
-        <Modal.Title>Add channel</Modal.Title>
+        <Modal.Title>Rename channel</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Formik
@@ -82,4 +82,4 @@ const ModalAdd = ({ closeModal, addNewChannel }) => {
   );
 };
 
-export default connect(mapStateToProps, actionCreators)(ModalAdd);
+export default connect(mapStateToProps, actionCreators)(ModalRename);

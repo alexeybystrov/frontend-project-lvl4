@@ -10,7 +10,14 @@ const channels = createReducer([], (builder) => {
     })
     .addCase(actions.removeChannelSuccess, (state, { payload }) => {
       const removedChannelId = payload.data.id;
-      return state.filter((channel) => channel.id !== removedChannelId);
+      return state.filter(({ id }) => id !== removedChannelId);
+    })
+    .addCase(actions.renameChannelSuccess, (state, { payload }) => {
+      console.log(payload);
+      const renamedChannelId = payload.data.id;
+      const channelNewName = payload.data.attributes.name;
+      const channel = state.find(({ id }) => id === renamedChannelId);
+      channel.name = channelNewName;
     });
 });
 

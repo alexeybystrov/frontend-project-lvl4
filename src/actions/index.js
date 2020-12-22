@@ -34,3 +34,12 @@ export const removeChannel = (payload) => async () => {
   const data = { data: { params: payload } };
   await axios.delete(url, data);
 };
+
+export const renameChannelSuccess = createAction('CHANNEL_RENAME_SUCCESS');
+
+export const renameChannel = (payload) => async (dispatch) => {
+  const url = routes.channelPath(payload.id);
+  const data = { data: { attributes: payload } };
+  const response = await axios.patch(url, data);
+  dispatch(setCurrentChannelId(response.data.data));
+};

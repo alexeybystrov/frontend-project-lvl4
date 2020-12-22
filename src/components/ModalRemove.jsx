@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Modal } from 'react-bootstrap';
 import * as actions from '../actions/index.js';
@@ -14,14 +14,6 @@ const actionCreators = {
 };
 
 const ModalRemove = ({ closeModal, removeChannel, modal }) => {
-  const inputElement = useRef(null);
-
-  useEffect(() => {
-    if (inputElement.current) {
-      inputElement.current.focus();
-    }
-  });
-
   const handleCloseModal = () => {
     closeModal();
   };
