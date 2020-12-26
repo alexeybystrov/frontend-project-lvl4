@@ -51,6 +51,7 @@ const ModalAdd = ({ closeModal, addNewChannel }) => {
                   innerRef={inputElement}
                   required
                 />
+                {isSubmitting && <div className="feedback">Creating channel...</div>}
                 <div className="d-flex justify-content-end">
                   <button
                     type="button"
