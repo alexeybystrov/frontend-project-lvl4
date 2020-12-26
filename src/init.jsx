@@ -4,7 +4,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import cookies from 'js-cookie';
 import { fake } from 'faker';
-import io from 'socket.io-client';
+import io from '../node_modules/socket.io/client-dist/socket.io.js';
 import App from './components/App.jsx';
 import UserContext from './UserContext.js';
 import * as actions from './actions/index.js';
