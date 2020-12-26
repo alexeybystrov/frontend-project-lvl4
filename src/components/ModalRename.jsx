@@ -18,13 +18,11 @@ const ModalRename = ({
   closeModal, renameChannel, modal, channels,
 }) => {
   const currentChannelName = channels.find(({ id }) => id === modal.extra.channelId).name;
-  console.log(currentChannelName);
 
   const inputElement = useRef(null);
 
   useEffect(() => {
     if (inputElement.current) {
-      inputElement.current.focus();
       inputElement.current.select();
     }
   });

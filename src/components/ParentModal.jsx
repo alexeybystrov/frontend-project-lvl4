@@ -15,7 +15,7 @@ const actionCreators = {
   closeModal: actions.closeModal,
 };
 
-const CommonModal = ({ modal, closeModal }) => {
+const ParentModal = ({ modal, closeModal }) => {
   const handleCloseModal = () => {
     closeModal();
   };
@@ -33,4 +33,4 @@ const CommonModal = ({ modal, closeModal }) => {
   );
 };
 
-export default connect(mapStateToProps, actionCreators)(CommonModal);
+export default connect(mapStateToProps, actionCreators)(ParentModal);
