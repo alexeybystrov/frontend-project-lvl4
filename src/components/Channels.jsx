@@ -70,13 +70,8 @@ const Channels = ({
     </Dropdown>
   );
 
-  const buttonRenderMapping = {
-    false: renderRegularButton,
-    true: renderRemovableButton,
-  };
-
   return (
-    <div className="col-3 border-right">
+    <div className="col-auto border-right">
       <div className="d-flex mb-2">
         <span>Channels</span>
         <button type="button" className="ml-auto p-0 btn btn-link" onClick={handleAddChannel}>+</button>
@@ -84,7 +79,7 @@ const Channels = ({
       <ul className="nav flex-column nav-pills nav-fill">
         {channels.map(({ removable, id, name }) => (
           <Nav.Item as="li" key={id}>
-            {buttonRenderMapping[removable](id, name)}
+            {removable ? renderRemovableButton(id, name) : renderRegularButton(id, name)}
           </Nav.Item>
         ))}
       </ul>

@@ -10,13 +10,11 @@ import UserContext from './UserContext.js';
 import * as actions from './actions/index.js';
 import rootReducer from './reducers/index.js';
 
-if (!cookies.get('username')) {
-  const username = fake('{{name.firstName}} {{name.lastName}}');
-  cookies.set('username', username);
-}
-
-export default (gon) => {
-  const preloadedState = gon;
+export default (preloadedState) => {
+  if (!cookies.get('username')) {
+    const username = fake('{{name.firstName}} {{name.lastName}}');
+    cookies.set('username', username);
+  }
 
   const store = configureStore({
     reducer: rootReducer,
