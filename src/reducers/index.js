@@ -37,7 +37,10 @@ const messages = createReducer([], (builder) => {
 const currentChannelId = createReducer('', (builder) => {
   builder
     // .addCase(actions.setInitialState, (state, { payload }) => payload.currentChannelId)
-    .addCase(actions.setCurrentChannelId, (_state, { payload }) => payload.id);
+    .addCase(actions.setCurrentChannelId, (_state, { payload }) => {
+      console.log(payload);
+      return payload.id;
+    });
 });
 
 const modalInitialState = { isOpened: false, type: null, extra: null };

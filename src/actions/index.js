@@ -29,10 +29,11 @@ export const addNewChannel = (payload) => async (dispatch) => {
 };
 export const removeChannelSuccess = createAction('CHANNEL_REMOVE_SUCCESS');
 
-export const removeChannel = (payload) => async () => {
+export const removeChannel = (payload) => async (dispatch) => {
   const url = routes.channelPath(payload.id);
   const data = { data: { params: payload } };
   await axios.delete(url, data);
+  dispatch(setCurrentChannelId({ id: 1 }));
 };
 
 export const renameChannelSuccess = createAction('CHANNEL_RENAME_SUCCESS');
