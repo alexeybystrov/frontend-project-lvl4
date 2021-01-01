@@ -2,6 +2,8 @@ import React, { useRef, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Formik, Field, Form } from 'formik';
 import { Modal } from 'react-bootstrap';
+import cn from 'classnames';
+import * as yup from 'yup';
 import * as actions from '../actions/index.js';
 
 const mapStateToProps = (state) => {
@@ -41,6 +43,24 @@ const ModalRename = ({
     }
   };
 
+  const validate = (value) => {
+    const channelNames = channels.map(({ name }) => name);
+    const schema = yup
+      .string()
+      .required('Required')
+      .min(3, 'Must be 3 to 20 characters')
+      .max(20, 'Must be 3 to 20 characters')
+      .trim('No leading and trailing whitespace allowed')
+      .strict()
+      .notOneOf(channelNames, 'The channel already exists');
+
+    try {
+      schema.validateSync(value);
+    } catch (err) {
+      return err.errors;
+    } return undefined;
+  };
+
   return (
     <>
       <Modal.Header closeButton>
@@ -50,16 +70,19 @@ const ModalRename = ({
         <Formik
           initialValues={{ body: currentChannelName }}
           onSubmit={handleSubmit}
+          validateOnBlur={false}
         >
-          {({ isSubmitting }) => (
+          {({ isSubmitting, errors, touched }) => (
             <Form>
               <div className="form-group">
                 <Field
                   name="body"
-                  className="mb-2 form-control"
+                  className={cn('mb-2 form-control', { 'is-invalid': errors.body && touched.body })}
                   innerRef={inputElement}
-                  required
+                  validate={validate}
                 />
+                {errors.body && touched.body && <div className="d-block mb-2 invalid-feedback">{errors.body}</div>}
+                {isSubmitting && <div className="feedback">Renaming channel...</div>}
                 <div className="d-flex justify-content-end">
                   <button
                     type="button"

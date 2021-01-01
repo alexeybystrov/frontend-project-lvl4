@@ -1,6 +1,8 @@
 import React, { useContext, useRef, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Formik, Field, Form } from 'formik';
+import cn from 'classnames';
+import * as yup from 'yup';
 import * as actions from '../actions/index.js';
 import UserContext from '../UserContext.js';
 
@@ -35,20 +37,35 @@ const MessagesForm = ({ currentChannelId, sendNewMessage }) => {
     inputElement.current.focus();
   };
 
+  const validate = (value) => {
+    const schema = yup
+      .string()
+      .required('Required')
+      .trim('No leading and trailing whitespace allowed');
+
+    try {
+      schema.validateSync(value);
+    } catch (err) {
+      return err.errors;
+    } return undefined;
+  };
+
   return (
     <div className="mt-auto">
       <Formik
         initialValues={{ body: '' }}
         onSubmit={handleSubmit}
+        validateOnBlur={false}
       >
-        {({ isSubmitting }) => (
+        {({ isSubmitting, errors }) => (
           <Form>
             <div className="form-group">
               <div className="input-group">
                 <Field
                   name="body"
-                  className="mr-2 form-control"
+                  className={cn('mr-2 form-control', { 'is-invalid': errors.body })}
                   innerRef={inputElement}
+                  validate={validate}
                 />
                 <button
                   aria-label="submit"
@@ -58,7 +75,7 @@ const MessagesForm = ({ currentChannelId, sendNewMessage }) => {
                 >
                   Submit
                 </button>
-                {/* <div className="d-block invalid-feedback">&nbsp;</div> */}
+                {errors.body && <div className="d-block mb-2 invalid-feedback">{errors.body}</div>}
               </div>
             </div>
           </Form>

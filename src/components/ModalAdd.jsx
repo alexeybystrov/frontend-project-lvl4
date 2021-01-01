@@ -2,14 +2,21 @@ import React, { useRef, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Formik, Field, Form } from 'formik';
 import { Modal } from 'react-bootstrap';
+import cn from 'classnames';
+import * as yup from 'yup';
 import * as actions from '../actions/index.js';
+
+const mapStateToProps = (state) => {
+  const { channels } = state;
+  return { channels };
+};
 
 const actionCreators = {
   closeModal: actions.closeModal,
   addNewChannel: actions.addNewChannel,
 };
 
-const ModalAdd = ({ closeModal, addNewChannel }) => {
+const ModalAdd = ({ closeModal, addNewChannel, channels }) => {
   const inputElement = useRef(null);
 
   useEffect(() => {
@@ -32,6 +39,24 @@ const ModalAdd = ({ closeModal, addNewChannel }) => {
     }
   };
 
+  const validate = (value) => {
+    const channelNames = channels.map(({ name }) => name);
+    const schema = yup
+      .string()
+      .required('Required')
+      .min(3, 'Must be 3 to 20 characters')
+      .max(20, 'Must be 3 to 20 characters')
+      .trim('No leading and trailing whitespace allowed')
+      .strict()
+      .notOneOf(channelNames, 'The channel already exists');
+
+    try {
+      schema.validateSync(value);
+    } catch (err) {
+      return err.errors;
+    } return undefined;
+  };
+
   return (
     <>
       <Modal.Header closeButton>
@@ -42,16 +67,17 @@ const ModalAdd = ({ closeModal, addNewChannel }) => {
           initialValues={{ body: '' }}
           onSubmit={handleSubmit}
         >
-          {({ isSubmitting }) => (
+          {({ isSubmitting, errors, touched }) => (
             <Form>
               <div className="form-group">
                 <Field
                   name="body"
-                  className="mb-2 form-control"
+                  className={cn('mb-2 form-control', { 'is-invalid': errors.body && touched.body })}
                   innerRef={inputElement}
-                  required
+                  validate={validate}
                 />
-                {isSubmitting && <div className="feedback">Creating channel...</div>}
+                {errors.body && touched.body && <div className="d-block mb-2 invalid-feedback">{errors.body}</div>}
+                {isSubmitting && <div className="d-block mb-2 feedback">Creating channel...</div>}
                 <div className="d-flex justify-content-end">
                   <button
                     type="button"
@@ -78,4 +104,4 @@ const ModalAdd = ({ closeModal, addNewChannel }) => {
   );
 };
 
-export default connect(null, actionCreators)(ModalAdd);
+export default connect(mapStateToProps, actionCreators)(ModalAdd);
