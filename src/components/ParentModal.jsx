@@ -1,23 +1,17 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Modal } from 'react-bootstrap';
-import * as actions from '../reducers/modalSlice.js';
+import { closeModal } from '../reducers/modalSlice.js';
 import ModalAdd from './ModalAdd.jsx';
 import ModalRemove from './ModalRemove.jsx';
 import ModalRename from './ModalRename.jsx';
 
-const mapStateToProps = (state) => {
-  const { modal } = state;
-  return { modal };
-};
+const ParentModal = () => {
+  const modal = useSelector((state) => state.modal);
+  const dispatch = useDispatch();
 
-const actionCreators = {
-  closeModal: actions.closeModal,
-};
-
-const ParentModal = ({ modal, closeModal }) => {
   const handleCloseModal = () => {
-    closeModal();
+    dispatch(closeModal());
   };
 
   const modalMapping = {
@@ -33,4 +27,4 @@ const ParentModal = ({ modal, closeModal }) => {
   );
 };
 
-export default connect(mapStateToProps, actionCreators)(ParentModal);
+export default ParentModal;

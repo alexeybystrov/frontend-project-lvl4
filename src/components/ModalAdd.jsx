@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Formik, Field, Form } from 'formik';
 import { Modal } from 'react-bootstrap';
 import cn from 'classnames';
@@ -9,17 +9,9 @@ import routes from '../routes.js';
 import { closeModal } from '../reducers/modalSlice.js';
 import { setCurrentChannelId } from '../reducers/currentChannelIdSlice.js';
 
-const mapStateToProps = (state) => {
-  const { channels } = state;
-  return { channels };
-};
-
-const actionCreators = {
-  closeModal,
-  setCurrentChannelId,
-};
-
-const ModalAdd = ({ closeModal, channels, setCurrentChannelId }) => {
+const ModalAdd = () => {
+  const channels = useSelector((state) => state.channels);
+  const dispatch = useDispatch();
   const inputElement = useRef(null);
 
   useEffect(() => {
@@ -29,7 +21,7 @@ const ModalAdd = ({ closeModal, channels, setCurrentChannelId }) => {
   });
 
   const handleCloseModal = () => {
-    closeModal();
+    dispatch(closeModal());
   };
 
   const handleSubmit = async (values) => {
@@ -38,8 +30,8 @@ const ModalAdd = ({ closeModal, channels, setCurrentChannelId }) => {
     const data = { data: { attributes: payload } };
     try {
       const response = await axios.post(url, data);
-      closeModal();
-      setCurrentChannelId(response.data.data);
+      dispatch(closeModal());
+      dispatch(setCurrentChannelId(response.data.data));
     } catch (e) {
       console.error(e);
     }
@@ -110,4 +102,4 @@ const ModalAdd = ({ closeModal, channels, setCurrentChannelId }) => {
   );
 };
 
-export default connect(mapStateToProps, actionCreators)(ModalAdd);
+export default ModalAdd;

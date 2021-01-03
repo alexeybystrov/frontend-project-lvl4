@@ -1,31 +1,22 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   Dropdown, Button, ButtonGroup, Nav,
 } from 'react-bootstrap';
 import { setCurrentChannelId } from '../reducers/currentChannelIdSlice.js';
 import { openModal } from '../reducers/modalSlice.js';
 
-const mapStateToProps = (state) => {
-  const { currentChannelId, channels } = state;
-  return { currentChannelId, channels };
-};
+const Channels = () => {
+  const { currentChannelId, channels } = useSelector((state) => state);
+  const dispatch = useDispatch();
 
-const actionCreators = {
-  setCurrentChannelId,
-  openModal,
-};
-
-const Channels = ({
-  currentChannelId, channels, setCurrentChannelId, openModal,
-}) => {
   const handleAddChannel = () => {
     const payload = {
       isOpened: true,
       type: 'addChannel',
       extra: null,
     };
-    openModal(payload);
+    dispatch(openModal(payload));
   };
 
   const handleRemoveChannel = (channelId) => () => {
@@ -34,7 +25,7 @@ const Channels = ({
       type: 'removeChannel',
       extra: { channelId },
     };
-    openModal(payload);
+    dispatch(openModal(payload));
   };
 
   const handleRenameChannel = (channelId) => () => {
@@ -43,11 +34,11 @@ const Channels = ({
       type: 'renameChannel',
       extra: { channelId },
     };
-    openModal(payload);
+    dispatch(openModal(payload));
   };
 
   const handleSetCurrentChannelId = (id) => () => {
-    setCurrentChannelId({ id });
+    dispatch(setCurrentChannelId({ id }));
   };
 
   const setVariant = (id) => (id === currentChannelId ? 'primary' : 'light');
@@ -88,4 +79,4 @@ const Channels = ({
   );
 };
 
-export default connect(mapStateToProps, actionCreators)(Channels);
+export default Channels;

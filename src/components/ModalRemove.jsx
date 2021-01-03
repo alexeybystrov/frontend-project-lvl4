@@ -1,24 +1,17 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Modal } from 'react-bootstrap';
 import axios from 'axios';
 import routes from '../routes.js';
 import { closeModal } from '../reducers/modalSlice.js';
 import { setCurrentChannelId } from '../reducers/currentChannelIdSlice.js';
 
-const mapStateToProps = (state) => {
-  const { modal } = state;
-  return { modal };
-};
+const ModalRemove = () => {
+  const modal = useSelector((state) => state.modal);
+  const dispatch = useDispatch();
 
-const actionCreators = {
-  closeModal,
-  setCurrentChannelId,
-};
-
-const ModalRemove = ({ closeModal, setCurrentChannelId, modal }) => {
   const handleCloseModal = () => {
-    closeModal();
+    dispatch(closeModal());
   };
 
   const handleRemoveChannel = async () => {
@@ -27,8 +20,8 @@ const ModalRemove = ({ closeModal, setCurrentChannelId, modal }) => {
     const data = { data: { params: payload } };
     try {
       await axios.delete(url, data);
-      closeModal();
-      setCurrentChannelId({ id: 1 });
+      dispatch(closeModal());
+      dispatch(setCurrentChannelId({ id: 1 }));
     } catch (e) {
       console.error(e);
     }
@@ -62,4 +55,4 @@ const ModalRemove = ({ closeModal, setCurrentChannelId, modal }) => {
   );
 };
 
-export default connect(mapStateToProps, actionCreators)(ModalRemove);
+export default ModalRemove;

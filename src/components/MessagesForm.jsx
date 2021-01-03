@@ -1,23 +1,14 @@
 import React, { useContext, useRef, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Formik, Field, Form } from 'formik';
 import cn from 'classnames';
 import * as yup from 'yup';
 import axios from 'axios';
 import routes from '../routes.js';
-// import * as actions from '../reducers/messagesSlice.js';
 import UserContext from '../UserContext.js';
 
-const mapStateToProps = (state) => {
-  const { currentChannelId } = state;
-  return { currentChannelId };
-};
-
-/* const actionCreators = {
-  sendNewMessage: actions.sendNewMessage,
-}; */
-
-const MessagesForm = ({ currentChannelId/* , sendNewMessage */ }) => {
+const MessagesForm = () => {
+  const currentChannelId = useSelector((state) => state.currentChannelId);
   const { username } = useContext(UserContext);
   const inputElement = useRef(null);
 
@@ -88,4 +79,4 @@ const MessagesForm = ({ currentChannelId/* , sendNewMessage */ }) => {
   );
 };
 
-export default connect(mapStateToProps/* , actionCreators */)(MessagesForm);
+export default MessagesForm;

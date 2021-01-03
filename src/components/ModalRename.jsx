@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Formik, Field, Form } from 'formik';
 import { Modal } from 'react-bootstrap';
 import cn from 'classnames';
@@ -9,22 +9,12 @@ import routes from '../routes.js';
 import { closeModal } from '../reducers/modalSlice.js';
 import { setCurrentChannelId } from '../reducers/currentChannelIdSlice.js';
 
-const mapStateToProps = (state) => {
-  const { modal, channels } = state;
-  return { modal, channels };
-};
-
-const actionCreators = {
-  closeModal,
-  setCurrentChannelId,
-};
-
-const ModalRename = ({
-  closeModal, modal, channels, setCurrentChannelId,
-}) => {
-  const currentChannelName = channels.find(({ id }) => id === modal.extra.channelId).name;
-
+const ModalRename = () => {
+  const { modal, channels } = useSelector((state) => state);
+  const dispatch = useDispatch();
   const inputElement = useRef(null);
+
+  const currentChannelName = channels.find(({ id }) => id === modal.extra.channelId).name;
 
   useEffect(() => {
     if (inputElement.current) {
@@ -33,7 +23,7 @@ const ModalRename = ({
   });
 
   const handleCloseModal = () => {
-    closeModal();
+    dispatch(closeModal());
   };
 
   const handleSubmit = async (values) => {
@@ -42,8 +32,8 @@ const ModalRename = ({
     const data = { data: { attributes: payload } };
     try {
       const response = await axios.patch(url, data);
-      closeModal();
-      setCurrentChannelId(response.data.data);
+      dispatch(closeModal());
+      dispatch(setCurrentChannelId(response.data.data));
     } catch (e) {
       console.error(e);
     }
@@ -115,4 +105,4 @@ const ModalRename = ({
   );
 };
 
-export default connect(mapStateToProps, actionCreators)(ModalRename);
+export default ModalRename;
