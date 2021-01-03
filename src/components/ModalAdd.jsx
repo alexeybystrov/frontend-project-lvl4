@@ -8,9 +8,11 @@ import axios from 'axios';
 import routes from '../routes.js';
 import { closeModal } from '../reducers/modalSlice.js';
 import { setCurrentChannelId } from '../reducers/currentChannelIdSlice.js';
+import { setNetworkErrors, clearNetworkErrors } from '../reducers/networkErrorsSlice.js';
 
 const ModalAdd = () => {
   const channels = useSelector((state) => state.channels);
+  const networkErrors = useSelector((state) => state.networkErrors);
   const dispatch = useDispatch();
   const inputElement = useRef(null);
 
@@ -28,12 +30,13 @@ const ModalAdd = () => {
     const payload = { name: values.body };
     const url = routes.channelsPath();
     const data = { data: { attributes: payload } };
+    dispatch(clearNetworkErrors());
     try {
       const response = await axios.post(url, data);
       dispatch(closeModal());
       dispatch(setCurrentChannelId(response.data.data));
     } catch (e) {
-      console.error(e);
+      dispatch(setNetworkErrors(e));
     }
   };
 
@@ -75,7 +78,8 @@ const ModalAdd = () => {
                   validate={validate}
                 />
                 {errors.body && touched.body && <div className="d-block mb-2 invalid-feedback">{errors.body}</div>}
-                {isSubmitting && <div className="d-block mb-2 feedback">Creating channel...</div>}
+                {isSubmitting && <div className="d-block mb-2 text-muted">Creating channel...</div>}
+                {networkErrors && <div className="d-block mb-2 invalid-feedback">{networkErrors}</div>}
                 <div className="d-flex justify-content-end">
                   <button
                     type="button"

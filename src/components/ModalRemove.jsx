@@ -5,9 +5,11 @@ import axios from 'axios';
 import routes from '../routes.js';
 import { closeModal } from '../reducers/modalSlice.js';
 import { setCurrentChannelId } from '../reducers/currentChannelIdSlice.js';
+import { setNetworkErrors, clearNetworkErrors } from '../reducers/networkErrorsSlice.js';
 
 const ModalRemove = () => {
   const modal = useSelector((state) => state.modal);
+  const networkErrors = useSelector((state) => state.networkErrors);
   const dispatch = useDispatch();
 
   const handleCloseModal = () => {
@@ -18,12 +20,13 @@ const ModalRemove = () => {
     const payload = { id: modal.extra.channelId };
     const url = routes.channelPath(payload.id);
     const data = { data: { params: payload } };
+    dispatch(clearNetworkErrors());
     try {
       await axios.delete(url, data);
       dispatch(closeModal());
       dispatch(setCurrentChannelId({ id: 1 }));
     } catch (e) {
-      console.error(e);
+      dispatch(setNetworkErrors(e));
     }
   };
 
@@ -34,6 +37,7 @@ const ModalRemove = () => {
       </Modal.Header>
       <Modal.Body>
         Are you sure?
+        {networkErrors && <div className="d-block mb-2 invalid-feedback">{networkErrors}</div>}
         <div className="d-flex justify-content-between">
           <button
             type="button"

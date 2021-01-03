@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useEffect } from 'react';
+import React, { useContext, useRef/* , useEffect */ } from 'react';
 import { useSelector } from 'react-redux';
 import { Formik, Field, Form } from 'formik';
 import cn from 'classnames';
@@ -12,11 +12,15 @@ const MessagesForm = () => {
   const { username } = useContext(UserContext);
   const inputElement = useRef(null);
 
-  useEffect(() => {
+  if (inputElement.current) {
+    inputElement.current.focus();
+  }
+
+  /* useEffect(() => {
     if (inputElement.current) {
       inputElement.current.focus();
     }
-  });
+  }); */
 
   const handleSubmit = async (values, formikActions) => {
     const payload = { body: values.body, username };
