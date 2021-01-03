@@ -4,7 +4,10 @@ import { Formik, Field, Form } from 'formik';
 import { Modal } from 'react-bootstrap';
 import cn from 'classnames';
 import * as yup from 'yup';
-import * as actions from '../actions/index.js';
+import axios from 'axios';
+import routes from '../routes.js';
+import { closeModal } from '../reducers/modalSlice.js';
+import { setCurrentChannelId } from '../reducers/currentChannelIdSlice.js';
 
 const mapStateToProps = (state) => {
   const { channels } = state;
@@ -12,11 +15,11 @@ const mapStateToProps = (state) => {
 };
 
 const actionCreators = {
-  closeModal: actions.closeModal,
-  addNewChannel: actions.addNewChannel,
+  closeModal,
+  setCurrentChannelId,
 };
 
-const ModalAdd = ({ closeModal, addNewChannel, channels }) => {
+const ModalAdd = ({ closeModal, channels, setCurrentChannelId }) => {
   const inputElement = useRef(null);
 
   useEffect(() => {
@@ -31,9 +34,12 @@ const ModalAdd = ({ closeModal, addNewChannel, channels }) => {
 
   const handleSubmit = async (values) => {
     const payload = { name: values.body };
+    const url = routes.channelsPath();
+    const data = { data: { attributes: payload } };
     try {
-      await addNewChannel(payload);
+      const response = await axios.post(url, data);
       closeModal();
+      setCurrentChannelId(response.data.data);
     } catch (e) {
       console.error(e);
     }

@@ -7,7 +7,8 @@ import { fake } from 'faker';
 import io from '../node_modules/socket.io/client-dist/socket.io.js';
 import App from './components/App.jsx';
 import UserContext from './UserContext.js';
-import * as actions from './actions/index.js';
+import { receiveNewMessage } from './reducers/messagesSlice.js';
+import { receiveNewChannel, removeChannel, renameChannel } from './reducers/channelsSlice.js';
 import rootReducer from './reducers/index.js';
 
 export default (preloadedState) => {
@@ -20,20 +21,19 @@ export default (preloadedState) => {
     reducer: rootReducer,
     preloadedState,
   });
-  // store.dispatch(actions.setInitialState(gon));
 
   const socket = io();
   socket.on('newMessage', (newMessage) => {
-    store.dispatch(actions.sendNewMessageSuccess(newMessage));
+    store.dispatch(receiveNewMessage(newMessage));
   });
   socket.on('newChannel', (newChannel) => {
-    store.dispatch(actions.addNewChannelSuccess(newChannel));
+    store.dispatch(receiveNewChannel(newChannel));
   });
   socket.on('removeChannel', (data) => {
-    store.dispatch(actions.removeChannelSuccess(data));
+    store.dispatch(removeChannel(data));
   });
   socket.on('renameChannel', (data) => {
-    store.dispatch(actions.renameChannelSuccess(data));
+    store.dispatch(renameChannel(data));
   });
 
   ReactDOM.render(

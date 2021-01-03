@@ -1,7 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Modal } from 'react-bootstrap';
-import * as actions from '../actions/index.js';
+import axios from 'axios';
+import routes from '../routes.js';
+import { closeModal } from '../reducers/modalSlice.js';
+import { setCurrentChannelId } from '../reducers/currentChannelIdSlice.js';
 
 const mapStateToProps = (state) => {
   const { modal } = state;
@@ -9,20 +12,23 @@ const mapStateToProps = (state) => {
 };
 
 const actionCreators = {
-  closeModal: actions.closeModal,
-  removeChannel: actions.removeChannel,
+  closeModal,
+  setCurrentChannelId,
 };
 
-const ModalRemove = ({ closeModal, removeChannel, modal }) => {
+const ModalRemove = ({ closeModal, setCurrentChannelId, modal }) => {
   const handleCloseModal = () => {
     closeModal();
   };
 
   const handleRemoveChannel = async () => {
     const payload = { id: modal.extra.channelId };
+    const url = routes.channelPath(payload.id);
+    const data = { data: { params: payload } };
     try {
-      await removeChannel(payload);
+      await axios.delete(url, data);
       closeModal();
+      setCurrentChannelId({ id: 1 });
     } catch (e) {
       console.error(e);
     }

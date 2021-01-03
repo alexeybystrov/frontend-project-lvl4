@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import {
   Dropdown, Button, ButtonGroup, Nav,
 } from 'react-bootstrap';
-import * as actions from '../actions/index.js';
+import { setCurrentChannelId } from '../reducers/currentChannelIdSlice.js';
+import { openModal } from '../reducers/modalSlice.js';
 
 const mapStateToProps = (state) => {
   const { currentChannelId, channels } = state;
@@ -11,8 +12,8 @@ const mapStateToProps = (state) => {
 };
 
 const actionCreators = {
-  setCurrentChannelId: actions.setCurrentChannelId,
-  openModal: actions.openModal,
+  setCurrentChannelId,
+  openModal,
 };
 
 const Channels = ({

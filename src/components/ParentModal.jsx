@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Modal } from 'react-bootstrap';
-import * as actions from '../actions/index.js';
+import * as actions from '../reducers/modalSlice.js';
 import ModalAdd from './ModalAdd.jsx';
 import ModalRemove from './ModalRemove.jsx';
 import ModalRename from './ModalRename.jsx';

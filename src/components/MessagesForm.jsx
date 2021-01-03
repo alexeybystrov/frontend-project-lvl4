@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import { Formik, Field, Form } from 'formik';
 import cn from 'classnames';
 import * as yup from 'yup';
-import * as actions from '../actions/index.js';
+import axios from 'axios';
+import routes from '../routes.js';
+// import * as actions from '../reducers/messagesSlice.js';
 import UserContext from '../UserContext.js';
 
 const mapStateToProps = (state) => {
@@ -11,13 +13,12 @@ const mapStateToProps = (state) => {
   return { currentChannelId };
 };
 
-const actionCreators = {
+/* const actionCreators = {
   sendNewMessage: actions.sendNewMessage,
-};
+}; */
 
-const MessagesForm = ({ currentChannelId, sendNewMessage }) => {
+const MessagesForm = ({ currentChannelId/* , sendNewMessage */ }) => {
   const { username } = useContext(UserContext);
-
   const inputElement = useRef(null);
 
   useEffect(() => {
@@ -28,8 +29,10 @@ const MessagesForm = ({ currentChannelId, sendNewMessage }) => {
 
   const handleSubmit = async (values, formikActions) => {
     const payload = { body: values.body, username };
+    const url = routes.channelMessagesPath(currentChannelId);
+    const data = { data: { attributes: payload } };
     try {
-      await sendNewMessage(currentChannelId, payload);
+      await axios.post(url, data);
       formikActions.resetForm();
     } catch (e) {
       console.error(e);
@@ -85,4 +88,4 @@ const MessagesForm = ({ currentChannelId, sendNewMessage }) => {
   );
 };
 
-export default connect(mapStateToProps, actionCreators)(MessagesForm);
+export default connect(mapStateToProps/* , actionCreators */)(MessagesForm);
