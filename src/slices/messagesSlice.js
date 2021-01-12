@@ -3,7 +3,7 @@ import { removeChannel } from './channelsSlice.js';
 
 const messagesSlice = createSlice({
   name: 'messages',
-  initialState: '',
+  initialState: null,
   reducers: {
     receiveNewMessage: (state, { payload }) => {
       const newMessage = payload.data.attributes;

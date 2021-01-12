@@ -7,15 +7,15 @@ import { fake } from 'faker';
 import io from '../node_modules/socket.io/client-dist/socket.io.js';
 import App from './components/App.jsx';
 import UserContext from './UserContext.js';
-import { receiveNewMessage } from './reducers/messagesSlice.js';
-import { receiveNewChannel, removeChannel, renameChannel } from './reducers/channelsSlice.js';
-import rootReducer from './reducers/index.js';
+import { receiveNewMessage } from './slices/messagesSlice.js';
+import { receiveNewChannel, removeChannel, renameChannel } from './slices/channelsSlice.js';
+import rootReducer from './slices/index.js';
 
 export default (preloadedState) => {
   if (!cookies.get('username')) {
-    const username = fake('{{name.firstName}} {{name.lastName}}');
-    cookies.set('username', username);
+    cookies.set('username', fake('{{name.firstName}} {{name.lastName}}'));
   }
+  const username = cookies.get('username');
 
   const store = configureStore({
     reducer: rootReducer,
@@ -38,7 +38,7 @@ export default (preloadedState) => {
 
   ReactDOM.render(
     <Provider store={store}>
-      <UserContext.Provider value={{ username: cookies.get('username') }}>
+      <UserContext.Provider value={{ username }}>
         <App />
       </UserContext.Provider>
     </Provider>, document.getElementById('chat'),

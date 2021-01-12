@@ -3,9 +3,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Modal } from 'react-bootstrap';
 import axios from 'axios';
 import routes from '../routes.js';
-import { closeModal } from '../reducers/modalSlice.js';
-import { setCurrentChannelId } from '../reducers/currentChannelIdSlice.js';
-import { setNetworkErrors, clearNetworkErrors } from '../reducers/networkErrorsSlice.js';
+import { closeModal } from '../slices/modalSlice.js';
+import { setCurrentChannelId } from '../slices/currentChannelIdSlice.js';
+import { setNetworkErrors, clearNetworkErrors } from '../slices/networkErrorsSlice.js';
 
 const ModalRemove = () => {
   const modal = useSelector((state) => state.modal);

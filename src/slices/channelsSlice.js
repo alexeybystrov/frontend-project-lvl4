@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const channelsSlice = createSlice({
   name: 'channels',
-  initialState: '',
+  initialState: null,
   reducers: {
     receiveNewChannel: (state, { payload }) => {
       const newChannel = payload.data.attributes;

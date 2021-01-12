@@ -6,9 +6,9 @@ import cn from 'classnames';
 import * as yup from 'yup';
 import axios from 'axios';
 import routes from '../routes.js';
-import { closeModal } from '../reducers/modalSlice.js';
-import { setCurrentChannelId } from '../reducers/currentChannelIdSlice.js';
-import { setNetworkErrors, clearNetworkErrors } from '../reducers/networkErrorsSlice.js';
+import { closeModal } from '../slices/modalSlice.js';
+import { setCurrentChannelId } from '../slices/currentChannelIdSlice.js';
+import { setNetworkErrors, clearNetworkErrors } from '../slices/networkErrorsSlice.js';
 
 const ModalRename = () => {
   const { modal, channels } = useSelector((state) => state);

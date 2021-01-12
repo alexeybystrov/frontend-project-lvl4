@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Modal } from 'react-bootstrap';
-import { closeModal } from '../reducers/modalSlice.js';
+import { closeModal } from '../slices/modalSlice.js';
 import ModalAdd from './ModalAdd.jsx';
 import ModalRemove from './ModalRemove.jsx';
 import ModalRename from './ModalRename.jsx';
