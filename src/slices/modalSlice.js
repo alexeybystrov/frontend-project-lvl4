@@ -6,7 +6,7 @@ const modalSlice = createSlice({
   name: 'modal',
   initialState: modalInitialState,
   reducers: {
-    openModal: (state, { payload }) => payload,
+    openModal: (state, { payload }) => ({ isOpened: true, ...payload }),
     closeModal: () => modalInitialState,
   },
 });

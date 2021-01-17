@@ -12,7 +12,6 @@ const Channels = () => {
 
   const handleAddChannel = () => {
     const payload = {
-      isOpened: true,
       type: 'addChannel',
       extra: null,
     };
@@ -21,7 +20,6 @@ const Channels = () => {
 
   const handleRemoveChannel = (channelId) => () => {
     const payload = {
-      isOpened: true,
       type: 'removeChannel',
       extra: { channelId },
     };
@@ -30,7 +28,6 @@ const Channels = () => {
 
   const handleRenameChannel = (channelId) => () => {
     const payload = {
-      isOpened: true,
       type: 'renameChannel',
       extra: { channelId },
     };

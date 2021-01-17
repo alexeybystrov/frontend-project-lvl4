@@ -11,7 +11,7 @@ import { setCurrentChannelId } from '../slices/channelsInfoSlice.js';
 import { setNetworkErrors, clearNetworkErrors } from '../slices/networkErrorsSlice.js';
 
 const ModalRename = () => {
-  const { modal } = useSelector((state) => state);
+  const modal = useSelector((state) => state.modal);
   const { channels } = useSelector((state) => state.channelsInfo);
   const networkErrors = useSelector((state) => state.networkErrors);
   const dispatch = useDispatch();

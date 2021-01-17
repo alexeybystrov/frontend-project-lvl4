@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { createSlice, combineReducers } from '@reduxjs/toolkit';
 
 const channelsSlice = createSlice({
@@ -10,7 +11,7 @@ const channelsSlice = createSlice({
     },
     removeChannel: (state, { payload }) => {
       const removedChannelId = payload.data.id;
-      return state.filter(({ id }) => id !== removedChannelId);
+      _.remove(state, ({ id }) => id === removedChannelId);
     },
     renameChannel: (state, { payload }) => {
       const renamedChannelId = payload.data.id;
