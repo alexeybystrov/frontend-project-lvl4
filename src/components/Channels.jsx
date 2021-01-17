@@ -3,11 +3,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   Dropdown, Button, ButtonGroup, Nav,
 } from 'react-bootstrap';
-import { setCurrentChannelId } from '../slices/currentChannelIdSlice.js';
+import { setCurrentChannelId } from '../slices/channelsInfoSlice.js';
 import { openModal } from '../slices/modalSlice.js';
 
 const Channels = () => {
-  const { currentChannelId, channels } = useSelector((state) => state);
+  const { currentChannelId, channels } = useSelector((state) => state.channelsInfo);
   const dispatch = useDispatch();
 
   const handleAddChannel = () => {

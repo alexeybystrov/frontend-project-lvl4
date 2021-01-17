@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, combineReducers } from '@reduxjs/toolkit';
 
 const channelsSlice = createSlice({
   name: 'channels',
@@ -21,5 +21,19 @@ const channelsSlice = createSlice({
   },
 });
 
+const currentChannelIdSlice = createSlice({
+  name: 'currentChannelId',
+  initialState: null,
+  reducers: {
+    setCurrentChannelId: (state, { payload }) => payload.id,
+  },
+});
+
+const channelsInfo = combineReducers({
+  channels: channelsSlice.reducer,
+  currentChannelId: currentChannelIdSlice.reducer,
+});
+
 export const { receiveNewChannel, removeChannel, renameChannel } = channelsSlice.actions;
-export default channelsSlice.reducer;
+export const { setCurrentChannelId } = currentChannelIdSlice.actions;
+export default channelsInfo;

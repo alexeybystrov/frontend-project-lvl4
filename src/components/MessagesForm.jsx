@@ -8,7 +8,7 @@ import routes from '../routes.js';
 import UserContext from '../UserContext.js';
 
 const MessagesForm = () => {
-  const currentChannelId = useSelector((state) => state.currentChannelId);
+  const { currentChannelId } = useSelector((state) => state.channelsInfo);
   const { username } = useContext(UserContext);
   const inputElement = useRef(null);
 

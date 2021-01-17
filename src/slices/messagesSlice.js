@@ -1,5 +1,5 @@
 import { createSlice/* , createAsyncThunk */ } from '@reduxjs/toolkit';
-import { removeChannel } from './channelsSlice.js';
+import { removeChannel } from './channelsInfoSlice.js';
 
 const messagesSlice = createSlice({
   name: 'messages',

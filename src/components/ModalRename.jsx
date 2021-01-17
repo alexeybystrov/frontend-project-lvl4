@@ -7,11 +7,12 @@ import * as yup from 'yup';
 import axios from 'axios';
 import routes from '../routes.js';
 import { closeModal } from '../slices/modalSlice.js';
-import { setCurrentChannelId } from '../slices/currentChannelIdSlice.js';
+import { setCurrentChannelId } from '../slices/channelsInfoSlice.js';
 import { setNetworkErrors, clearNetworkErrors } from '../slices/networkErrorsSlice.js';
 
 const ModalRename = () => {
-  const { modal, channels } = useSelector((state) => state);
+  const { modal } = useSelector((state) => state);
+  const { channels } = useSelector((state) => state.channelsInfo);
   const networkErrors = useSelector((state) => state.networkErrors);
   const dispatch = useDispatch();
   const inputElement = useRef(null);

@@ -8,14 +8,22 @@ import io from '../node_modules/socket.io/client-dist/socket.io.js';
 import App from './components/App.jsx';
 import UserContext from './UserContext.js';
 import { receiveNewMessage } from './slices/messagesSlice.js';
-import { receiveNewChannel, removeChannel, renameChannel } from './slices/channelsSlice.js';
+import { receiveNewChannel, removeChannel, renameChannel } from './slices/channelsInfoSlice.js';
 import rootReducer from './slices/index.js';
 
-export default (preloadedState) => {
+export default (initialState) => {
   if (!cookies.get('username')) {
     cookies.set('username', fake('{{name.firstName}} {{name.lastName}}'));
   }
   const username = cookies.get('username');
+
+  const preloadedState = {
+    channelsInfo: {
+      channels: initialState.channels,
+      currentChannelId: initialState.currentChannelId,
+    },
+    messages: initialState.messages,
+  };
 
   const store = configureStore({
     reducer: rootReducer,
