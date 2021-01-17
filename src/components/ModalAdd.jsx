@@ -20,7 +20,7 @@ const ModalAdd = () => {
     if (inputElement.current) {
       inputElement.current.focus();
     }
-  });
+  }, []);
 
   const handleCloseModal = () => {
     dispatch(closeModal());

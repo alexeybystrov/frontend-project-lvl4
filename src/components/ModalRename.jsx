@@ -23,7 +23,7 @@ const ModalRename = () => {
     if (inputElement.current) {
       inputElement.current.select();
     }
-  });
+  }, []);
 
   const handleCloseModal = () => {
     dispatch(closeModal());
