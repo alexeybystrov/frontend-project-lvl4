@@ -1,20 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { closeModal } from './modalSlice.js';
 
-const networkErrorsInitialState = '';
+const networkErrorsInitialState = { isOpened: false, text: '' };
 
 const networkErrorsSlice = createSlice({
-  name: 'networkErrors',
+  name: 'networkErrorToast',
   initialState: networkErrorsInitialState,
   reducers: {
-    setNetworkErrors: (state, { payload }) => payload.message,
-    clearNetworkErrors: () => networkErrorsInitialState,
+    showToast: (state, { payload }) => ({ isOpened: true, text: payload.message }),
+    closeToast: () => networkErrorsInitialState,
   },
-  extraReducers: (builder) => {
-    builder
-      .addCase(closeModal, () => networkErrorsInitialState);
-  },
+  // extraReducers: (builder) => {
+  //   builder
+  //     .addCase(closeModal, () => networkErrorsInitialState);
+  // },
 });
 
-export const { setNetworkErrors, clearNetworkErrors } = networkErrorsSlice.actions;
+export const { showToast, closeToast } = networkErrorsSlice.actions;
 export default networkErrorsSlice.reducer;

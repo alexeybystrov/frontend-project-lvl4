@@ -8,11 +8,10 @@ import axios from 'axios';
 import routes from '../routes.js';
 import { closeModal } from '../slices/modalSlice.js';
 import { setCurrentChannelId } from '../slices/channelsInfoSlice.js';
-import { setNetworkErrors, clearNetworkErrors } from '../slices/networkErrorsSlice.js';
+import { showToast } from '../slices/networkErrorsSlice.js';
 
 const ModalAdd = () => {
   const { channels } = useSelector((state) => state.channelsInfo);
-  const networkErrors = useSelector((state) => state.networkErrors);
   const dispatch = useDispatch();
   const inputElement = useRef(null);
 
@@ -30,13 +29,12 @@ const ModalAdd = () => {
     const payload = { name: values.body };
     const url = routes.channelsPath();
     const data = { data: { attributes: payload } };
-    dispatch(clearNetworkErrors());
     try {
-      const response = await axios.post(url, data);
       dispatch(closeModal());
+      const response = await axios.post(url, data);
       dispatch(setCurrentChannelId(response.data.data));
     } catch (e) {
-      dispatch(setNetworkErrors(e));
+      dispatch(showToast(e));
     }
   };
 
@@ -79,7 +77,6 @@ const ModalAdd = () => {
                 />
                 {errors.body && touched.body && <div className="d-block mb-2 invalid-feedback">{errors.body}</div>}
                 {isSubmitting && <div className="d-block mb-2 text-muted">Creating channel...</div>}
-                {networkErrors && <div className="d-block mb-2 invalid-feedback">{networkErrors}</div>}
                 <div className="d-flex justify-content-end">
                   <button
                     type="button"

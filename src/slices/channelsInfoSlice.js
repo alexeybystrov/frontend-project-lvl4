@@ -30,11 +30,11 @@ const currentChannelIdSlice = createSlice({
   },
 });
 
-const channelsInfo = combineReducers({
+const channelsInfoReducer = combineReducers({
   channels: channelsSlice.reducer,
   currentChannelId: currentChannelIdSlice.reducer,
 });
 
 export const { receiveNewChannel, removeChannel, renameChannel } = channelsSlice.actions;
 export const { setCurrentChannelId } = currentChannelIdSlice.actions;
-export default channelsInfo;
+export default channelsInfoReducer;

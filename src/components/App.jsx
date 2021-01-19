@@ -4,6 +4,7 @@ import Channels from './Channels.jsx';
 import MessagesList from './MessagesList.jsx';
 import MessagesForm from './MessagesForm.jsx';
 import ParentModal from './ParentModal.jsx';
+import NetworkErrorToast from './NetworkErrorToast.jsx';
 
 const App = () => (
   <div className="row h-100 pb-3">
@@ -15,6 +16,7 @@ const App = () => (
       </div>
     </div>
     <ParentModal />
+    <NetworkErrorToast />
   </div>
 );
 export default App;

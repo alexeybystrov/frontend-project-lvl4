@@ -8,5 +8,5 @@ export default combineReducers({
   channelsInfo: channelsInfoReducer,
   messages: messagesReducer,
   modal: modalReducer,
-  networkErrors: networkErrorsReducer,
+  networkErrorToast: networkErrorsReducer,
 });

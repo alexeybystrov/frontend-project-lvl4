@@ -8,12 +8,11 @@ import axios from 'axios';
 import routes from '../routes.js';
 import { closeModal } from '../slices/modalSlice.js';
 import { setCurrentChannelId } from '../slices/channelsInfoSlice.js';
-import { setNetworkErrors, clearNetworkErrors } from '../slices/networkErrorsSlice.js';
+import { showToast } from '../slices/networkErrorsSlice.js';
 
 const ModalRename = () => {
   const modal = useSelector((state) => state.modal);
   const { channels } = useSelector((state) => state.channelsInfo);
-  const networkErrors = useSelector((state) => state.networkErrors);
   const dispatch = useDispatch();
   const inputElement = useRef(null);
 
@@ -33,13 +32,12 @@ const ModalRename = () => {
     const payload = { name: values.body, id: modal.extra.channelId };
     const url = routes.channelPath(payload.id);
     const data = { data: { attributes: payload } };
-    dispatch(clearNetworkErrors());
     try {
-      const response = await axios.patch(url, data);
       dispatch(closeModal());
+      const response = await axios.patch(url, data);
       dispatch(setCurrentChannelId(response.data.data));
     } catch (e) {
-      dispatch(setNetworkErrors(e));
+      dispatch(showToast(e));
     }
   };
 
@@ -83,7 +81,6 @@ const ModalRename = () => {
                 />
                 {errors.body && touched.body && <div className="d-block mb-2 invalid-feedback">{errors.body}</div>}
                 {isSubmitting && <div className="d-block mb-2 text-muted">Renaming channel...</div>}
-                {networkErrors && <div className="d-block mb-2 invalid-feedback">{networkErrors}</div>}
                 <div className="d-flex justify-content-end">
                   <button
                     type="button"

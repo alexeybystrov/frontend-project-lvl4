@@ -1,15 +1,17 @@
 import React, { useContext, useRef, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Formik, Field, Form } from 'formik';
 import cn from 'classnames';
 import * as yup from 'yup';
 import axios from 'axios';
 import routes from '../routes.js';
 import UserContext from '../UserContext.js';
+import { showToast } from '../slices/networkErrorsSlice.js';
 
 const MessagesForm = () => {
   const { currentChannelId } = useSelector((state) => state.channelsInfo);
   const { username } = useContext(UserContext);
+  const dispatch = useDispatch();
   const inputElement = useRef(null);
 
   useEffect(() => {
@@ -26,7 +28,7 @@ const MessagesForm = () => {
       await axios.post(url, data);
       formikActions.resetForm();
     } catch (e) {
-      console.error(e);
+      dispatch(showToast(e));
     }
     inputElement.current.focus();
   };
