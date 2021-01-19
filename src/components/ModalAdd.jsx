@@ -12,6 +12,7 @@ import { showToast } from '../slices/networkErrorsSlice.js';
 
 const ModalAdd = () => {
   const { channels } = useSelector((state) => state.channelsInfo);
+  const channelNames = channels.map(({ name }) => name);
   const dispatch = useDispatch();
   const inputElement = useRef(null);
 
@@ -38,23 +39,33 @@ const ModalAdd = () => {
     }
   };
 
-  const validate = (value) => {
-    const channelNames = channels.map(({ name }) => name);
-    const schema = yup
-      .string()
+  // const validate = (value) => {
+  //   const channelNames = channels.map(({ name }) => name);
+  //   const schema = yup
+  //     .string()
+  //     .required('Required')
+  //     .min(3, 'Must be 3 to 20 characters')
+  //     .max(20, 'Must be 3 to 20 characters')
+  //     .trim('No leading and trailing whitespace allowed')
+  //     .strict()
+  //     .notOneOf(channelNames, 'The channel already exists');
+
+  //   try {
+  //     schema.validateSync(value);
+  //   } catch (err) {
+  //     return err.errors;
+  //   } return undefined;
+  // };
+
+  const schema = yup.object().shape({
+    body: yup.string()
       .required('Required')
       .min(3, 'Must be 3 to 20 characters')
       .max(20, 'Must be 3 to 20 characters')
       .trim('No leading and trailing whitespace allowed')
       .strict()
-      .notOneOf(channelNames, 'The channel already exists');
-
-    try {
-      schema.validateSync(value);
-    } catch (err) {
-      return err.errors;
-    } return undefined;
-  };
+      .notOneOf(channelNames, 'The channel already exists'),
+  });
 
   return (
     <>
@@ -64,16 +75,20 @@ const ModalAdd = () => {
       <Modal.Body>
         <Formik
           initialValues={{ body: '' }}
+          validationSchema={schema}
           onSubmit={handleSubmit}
+          validateOnBlur={false}
+          validateOnChange={false}
+          validateOn
         >
-          {({ isSubmitting, errors, touched }) => (
+          {({ isSubmitting, errors, touched/* , values, handleChange, setErrors */ }) => (
             <Form>
               <div className="form-group">
                 <Field
                   name="body"
                   className={cn('mb-2 form-control', { 'is-invalid': errors.body && touched.body })}
                   innerRef={inputElement}
-                  validate={validate}
+                  // validate={validate}
                 />
                 {errors.body && touched.body && <div className="d-block mb-2 invalid-feedback">{errors.body}</div>}
                 {isSubmitting && <div className="d-block mb-2 text-muted">Creating channel...</div>}

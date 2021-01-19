@@ -33,25 +33,33 @@ const MessagesForm = () => {
     inputElement.current.focus();
   };
 
-  const validate = (value) => {
-    const schema = yup
-      .string()
-      .required('Required')
-      .trim('No leading and trailing whitespace allowed');
+  // const validate = (value) => {
+  //   const schema = yup
+  //     .string()
+  //     .required('Required')
+  //     .trim('No leading and trailing whitespace allowed');
 
-    try {
-      schema.validateSync(value);
-    } catch (err) {
-      return err.errors;
-    } return undefined;
-  };
+  //   try {
+  //     schema.validateSync(value);
+  //   } catch (err) {
+  //     return err.errors;
+  //   } return undefined;
+  // };
+
+  const schema = yup.object().shape({
+    body: yup.string()
+      .required('Required')
+      .trim('No leading and trailing whitespace allowed'),
+  });
 
   return (
     <div className="mt-auto">
       <Formik
         initialValues={{ body: '' }}
+        validationSchema={schema}
         onSubmit={handleSubmit}
         validateOnBlur={false}
+        validateOnChange={false}
       >
         {({ isSubmitting, errors }) => (
           <Form>
@@ -61,7 +69,7 @@ const MessagesForm = () => {
                   name="body"
                   className={cn('mr-2 form-control', { 'is-invalid': errors.body })}
                   innerRef={inputElement}
-                  validate={validate}
+                  // validate={schema}
                 />
                 <button
                   aria-label="submit"
