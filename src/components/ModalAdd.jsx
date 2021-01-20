@@ -78,8 +78,7 @@ const ModalAdd = () => {
           validationSchema={schema}
           onSubmit={handleSubmit}
           validateOnBlur={false}
-          validateOnChange={false}
-          validateOn
+          // validateOnChange={false}
         >
           {({ isSubmitting, errors, touched/* , values, handleChange, setErrors */ }) => (
             <Form>
@@ -88,9 +87,16 @@ const ModalAdd = () => {
                   name="body"
                   className={cn('mb-2 form-control', { 'is-invalid': errors.body && touched.body })}
                   innerRef={inputElement}
+                  // required
                   // validate={validate}
                 />
-                {errors.body && touched.body && <div className="d-block mb-2 invalid-feedback">{errors.body}</div>}
+                {errors.body && touched.body && (
+                  <div style={{ position: 'relative' }}>
+                    <div style={{ position: 'absolute', width: 'max-content' }} className="d-block mb-2 invalid-feedback">
+                      {errors.body}
+                    </div>
+                  </div>
+                )}
                 {isSubmitting && <div className="d-block mb-2 text-muted">Creating channel...</div>}
                 <div className="d-flex justify-content-end">
                   <button

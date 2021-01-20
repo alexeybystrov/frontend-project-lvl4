@@ -4,7 +4,6 @@ import { Modal } from 'react-bootstrap';
 import axios from 'axios';
 import routes from '../routes.js';
 import { closeModal } from '../slices/modalSlice.js';
-import { setCurrentChannelId } from '../slices/channelsInfoSlice.js';
 import { showToast } from '../slices/networkErrorsSlice.js';
 
 const ModalRemove = () => {
@@ -22,7 +21,7 @@ const ModalRemove = () => {
     try {
       dispatch(closeModal());
       await axios.delete(url, data);
-      dispatch(setCurrentChannelId({ id: 1 }));
+      // dispatch(setCurrentChannelId({ id: 1 }));
     } catch (e) {
       dispatch(showToast(e));
     }

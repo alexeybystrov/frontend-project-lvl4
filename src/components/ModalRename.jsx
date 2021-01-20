@@ -92,7 +92,13 @@ const ModalRename = () => {
                   innerRef={inputElement}
                   // validate={validate}
                 />
-                {errors.body && touched.body && <div className="d-block mb-2 invalid-feedback">{errors.body}</div>}
+                {errors.body && touched.body && (
+                  <div style={{ position: 'relative' }}>
+                    <div style={{ position: 'absolute', width: 'max-content' }} className="d-block mb-2 invalid-feedback">
+                      {errors.body}
+                    </div>
+                  </div>
+                )}
                 {isSubmitting && <div className="d-block mb-2 text-muted">Renaming channel...</div>}
                 <div className="d-flex justify-content-end">
                   <button

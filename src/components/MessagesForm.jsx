@@ -79,8 +79,14 @@ const MessagesForm = () => {
                 >
                   Submit
                 </button>
-                {errors.body && <div className="d-block mb-2 invalid-feedback">{errors.body}</div>}
               </div>
+              {errors.body && (
+                <div style={{ position: 'relative' }}>
+                  <div style={{ position: 'absolute' }} className="d-block mb-2 invalid-feedback">
+                    {errors.body}
+                  </div>
+                </div>
+              )}
             </div>
           </Form>
         )}
