@@ -38,20 +38,20 @@ const Channels = () => {
     dispatch(setCurrentChannelId({ id }));
   };
 
-  const setVariant = (id) => (id === currentChannelId ? 'primary' : 'light');
+  const getVariant = (id) => (id === currentChannelId ? 'primary' : 'light');
 
   const renderRegularButton = (id, name) => (
-    <Nav.Link as={Button} variant={setVariant(id)} onClick={handleSetCurrentChannelId(id)} className="mb-2 text-left" block>
+    <Nav.Link as={Button} variant={getVariant(id)} onClick={handleSetCurrentChannelId(id)} className="mb-2 text-left" block>
       {name}
     </Nav.Link>
   );
 
   const renderRemovableButton = (id, name) => (
     <Dropdown as={ButtonGroup} className="d-flex mb-2">
-      <Nav.Link as={Button} variant={setVariant(id)} onClick={handleSetCurrentChannelId(id)} className="text-left flex-grow-1">
+      <Nav.Link as={Button} variant={getVariant(id)} onClick={handleSetCurrentChannelId(id)} className="text-left flex-grow-1">
         {name}
       </Nav.Link>
-      <Dropdown.Toggle split variant={setVariant(id)} className="flex-grow-0" />
+      <Dropdown.Toggle split variant={getVariant(id)} className="flex-grow-0" />
       <Dropdown.Menu>
         <Dropdown.Item href="#" onClick={handleRemoveChannel(id)}>Remove</Dropdown.Item>
         <Dropdown.Item href="#" onClick={handleRenameChannel(id)}>Rename</Dropdown.Item>

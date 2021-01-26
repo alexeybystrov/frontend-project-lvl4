@@ -91,8 +91,8 @@ const ModalAdd = () => {
                   // validate={validate}
                 />
                 {errors.body && touched.body && (
-                  <div style={{ position: 'relative' }}>
-                    <div style={{ position: 'absolute', width: 'max-content' }} className="d-block mb-2 invalid-feedback">
+                  <div className="position-relative">
+                    <div className="position-absolute d-block mb-2 invalid-feedback">
                       {errors.body}
                     </div>
                   </div>
