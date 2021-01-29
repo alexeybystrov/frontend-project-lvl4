@@ -35,7 +35,7 @@ const Channels = () => {
   };
 
   const handleSetCurrentChannelId = (id) => () => {
-    dispatch(setCurrentChannelId({ id }));
+    dispatch(setCurrentChannelId(id));
   };
 
   const getVariant = (id) => (id === currentChannelId ? 'primary' : 'light');

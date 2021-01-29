@@ -31,17 +31,25 @@ export default (initialState) => {
   });
 
   const socket = io();
-  socket.on('newMessage', (newMessage) => {
+  socket.on('newMessage', (data) => {
+    const { data: { attributes: newMessage } } = data;
     store.dispatch(receiveNewMessage(newMessage));
   });
-  socket.on('newChannel', (newChannel) => {
+  socket.on('newChannel', (data) => {
+    const { data: { attributes: newChannel } } = data;
     store.dispatch(receiveNewChannel(newChannel));
   });
   socket.on('removeChannel', (data) => {
-    store.dispatch(removeChannel(data));
+    const { data: { id: removedChannelId }} = data;
+    store.dispatch(removeChannel(removedChannelId));
   });
   socket.on('renameChannel', (data) => {
-    store.dispatch(renameChannel(data));
+    console.log(data);
+    const renamedChannel = {
+      name: data.data.attributes.name,
+      id: data.data.attributes.id,
+    };
+    store.dispatch(renameChannel(renamedChannel));
   });
 
   ReactDOM.render(
