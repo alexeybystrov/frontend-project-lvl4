@@ -40,15 +40,11 @@ export default (initialState) => {
     store.dispatch(receiveNewChannel(newChannel));
   });
   socket.on('removeChannel', (data) => {
-    const { data: { id: removedChannelId }} = data;
+    const { data: { id: removedChannelId } } = data;
     store.dispatch(removeChannel(removedChannelId));
   });
   socket.on('renameChannel', (data) => {
-    console.log(data);
-    const renamedChannel = {
-      name: data.data.attributes.name,
-      id: data.data.attributes.id,
-    };
+    const { data: { attributes: renamedChannel } } = data;
     store.dispatch(renameChannel(renamedChannel));
   });
 
