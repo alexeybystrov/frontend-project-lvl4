@@ -22,11 +22,21 @@ const channelsSlice = createSlice({
   },
 });
 
+export const { receiveNewChannel, removeChannel, renameChannel } = channelsSlice.actions;
+
 const currentChannelIdSlice = createSlice({
   name: 'currentChannelId',
   initialState: null,
   reducers: {
     setCurrentChannelId: (state, { payload }) => payload.id,
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(removeChannel, (state, { payload }) => {
+        const currentChannelId = state;
+        const { id: removedId } = payload.data;
+        return currentChannelId === removedId ? 1 : state;
+      });
   },
 });
 
@@ -35,6 +45,5 @@ const channelsInfoReducer = combineReducers({
   currentChannelId: currentChannelIdSlice.reducer,
 });
 
-export const { receiveNewChannel, removeChannel, renameChannel } = channelsSlice.actions;
 export const { setCurrentChannelId } = currentChannelIdSlice.actions;
 export default channelsInfoReducer;

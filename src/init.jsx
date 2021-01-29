@@ -8,9 +8,7 @@ import io from '../node_modules/socket.io/client-dist/socket.io.js';
 import App from './components/App.jsx';
 import UserContext from './UserContext.js';
 import { receiveNewMessage } from './slices/messagesSlice.js';
-import {
-  receiveNewChannel, removeChannel, renameChannel, setCurrentChannelId,
-} from './slices/channelsInfoSlice.js';
+import { receiveNewChannel, removeChannel, renameChannel } from './slices/channelsInfoSlice.js';
 import rootReducer from './slices/index.js';
 
 export default (initialState) => {
@@ -41,11 +39,6 @@ export default (initialState) => {
   });
   socket.on('removeChannel', (data) => {
     store.dispatch(removeChannel(data));
-    const { channelsInfo: { currentChannelId } } = store.getState();
-    const { id: removedId } = data.data;
-    if (currentChannelId === removedId) {
-      store.dispatch(setCurrentChannelId({ id: 1 }));
-    }
   });
   socket.on('renameChannel', (data) => {
     store.dispatch(renameChannel(data));

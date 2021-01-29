@@ -33,19 +33,6 @@ const MessagesForm = () => {
     inputElement.current.focus();
   };
 
-  // const validate = (value) => {
-  //   const schema = yup
-  //     .string()
-  //     .required('Required')
-  //     .trim('No leading and trailing whitespace allowed');
-
-  //   try {
-  //     schema.validateSync(value);
-  //   } catch (err) {
-  //     return err.errors;
-  //   } return undefined;
-  // };
-
   const schema = yup.object().shape({
     body: yup.string()
       .required('Required')

@@ -39,24 +39,6 @@ const ModalAdd = () => {
     }
   };
 
-  // const validate = (value) => {
-  //   const channelNames = channels.map(({ name }) => name);
-  //   const schema = yup
-  //     .string()
-  //     .required('Required')
-  //     .min(3, 'Must be 3 to 20 characters')
-  //     .max(20, 'Must be 3 to 20 characters')
-  //     .trim('No leading and trailing whitespace allowed')
-  //     .strict()
-  //     .notOneOf(channelNames, 'The channel already exists');
-
-  //   try {
-  //     schema.validateSync(value);
-  //   } catch (err) {
-  //     return err.errors;
-  //   } return undefined;
-  // };
-
   const schema = yup.object().shape({
     body: yup.string()
       .required('Required')
