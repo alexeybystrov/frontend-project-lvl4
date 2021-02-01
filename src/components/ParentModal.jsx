@@ -6,7 +6,7 @@ import ModalAdd from './ModalAdd.jsx';
 import ModalRemove from './ModalRemove.jsx';
 import ModalRename from './ModalRename.jsx';
 
-const ParentModal = () => {
+const ParentModal = (props) => {
   const modal = useSelector((state) => state.modal);
   const dispatch = useDispatch();
 
@@ -14,10 +14,12 @@ const ParentModal = () => {
     dispatch(closeModal());
   };
 
+  const { toastState } = props;
+
   const modalMapping = {
-    addChannel: <ModalAdd />,
-    removeChannel: <ModalRemove />,
-    renameChannel: <ModalRename />,
+    addChannel: <ModalAdd toastState={toastState} />,
+    removeChannel: <ModalRemove toastState={toastState} />,
+    renameChannel: <ModalRename toastState={toastState} />,
   };
 
   return (

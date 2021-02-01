@@ -1,15 +1,8 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { Toast } from 'react-bootstrap';
-import { closeToast } from '../slices/networkErrorsSlice.js';
 
-const NetworkErrorToast = () => {
-  const { isOpened, text } = useSelector((state) => state.networkErrorToast);
-  const dispatch = useDispatch();
-
-  const handleCloseModal = () => {
-    dispatch(closeToast());
-  };
+const NetworkErrorToast = (props) => {
+  const { toastState: [show, setShow] } = props;
 
   return (
     <div
@@ -21,8 +14,8 @@ const NetworkErrorToast = () => {
       }}
     >
       <Toast
-        onClose={() => handleCloseModal()}
-        show={isOpened}
+        onClose={() => setShow(false)}
+        show={show}
         delay={3000}
         autohide
         style={{
@@ -33,7 +26,7 @@ const NetworkErrorToast = () => {
         }}
       >
         <Toast.Body className="text-danger">
-          {text}
+          Network Error
         </Toast.Body>
       </Toast>
     </div>

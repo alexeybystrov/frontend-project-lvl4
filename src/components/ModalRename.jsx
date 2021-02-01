@@ -8,9 +8,8 @@ import axios from 'axios';
 import routes from '../routes.js';
 import { closeModal } from '../slices/modalSlice.js';
 import { setCurrentChannelId } from '../slices/channelsInfoSlice.js';
-import { showToast } from '../slices/networkErrorsSlice.js';
 
-const ModalRename = () => {
+const ModalRename = (props) => {
   const modal = useSelector((state) => state.modal);
   const { channels } = useSelector((state) => state.channelsInfo);
   const channelNames = channels.map(({ name }) => name);
@@ -29,6 +28,7 @@ const ModalRename = () => {
     dispatch(closeModal());
   };
 
+  const { toastState: [, setShowToast] } = props;
   const handleSubmit = async (values) => {
     const payload = { name: values.body, id: modal.extra.channelId };
     const url = routes.channelPath(payload.id);
@@ -38,7 +38,7 @@ const ModalRename = () => {
       const response = await axios.patch(url, data);
       dispatch(setCurrentChannelId(response.data.data));
     } catch (e) {
-      dispatch(showToast(e));
+      setShowToast(true);
     }
   };
 
@@ -72,7 +72,6 @@ const ModalRename = () => {
                   name="body"
                   className={cn('mb-2 form-control', { 'is-invalid': errors.body && touched.body })}
                   innerRef={inputElement}
-                  // validate={validate}
                 />
                 {errors.body && touched.body && (
                   <div className="position-relative">

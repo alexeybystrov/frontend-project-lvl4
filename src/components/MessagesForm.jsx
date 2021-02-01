@@ -1,17 +1,15 @@
 import React, { useContext, useRef, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector/* , useDispatch */ } from 'react-redux';
 import { Formik, Field, Form } from 'formik';
 import cn from 'classnames';
 import * as yup from 'yup';
 import axios from 'axios';
 import routes from '../routes.js';
 import UserContext from '../UserContext.js';
-import { showToast } from '../slices/networkErrorsSlice.js';
 
-const MessagesForm = () => {
+const MessagesForm = (props) => {
   const { currentChannelId } = useSelector((state) => state.channelsInfo);
   const { username } = useContext(UserContext);
-  const dispatch = useDispatch();
   const inputElement = useRef(null);
 
   useEffect(() => {
@@ -20,6 +18,7 @@ const MessagesForm = () => {
     }
   }, []);
 
+  const { toastState: [, setShowToast] } = props;
   const handleSubmit = async (values, formikActions) => {
     const payload = { body: values.body, username };
     const url = routes.channelMessagesPath(currentChannelId);
@@ -28,7 +27,7 @@ const MessagesForm = () => {
       await axios.post(url, data);
       formikActions.resetForm();
     } catch (e) {
-      dispatch(showToast(e));
+      setShowToast(true);
     }
     inputElement.current.focus();
   };
@@ -56,7 +55,6 @@ const MessagesForm = () => {
                   name="body"
                   className={cn('mr-2 form-control', { 'is-invalid': errors.body })}
                   innerRef={inputElement}
-                  // validate={schema}
                 />
                 <button
                   aria-label="submit"
