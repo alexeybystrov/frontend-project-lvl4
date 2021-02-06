@@ -1,4 +1,3 @@
-// import { Field } from 'formik';
 import React, { useState } from 'react';
 import Channels from './Channels.jsx';
 import MessagesList from './MessagesList.jsx';

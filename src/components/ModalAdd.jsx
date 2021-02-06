@@ -60,9 +60,8 @@ const ModalAdd = (props) => {
           validationSchema={schema}
           onSubmit={handleSubmit}
           validateOnBlur={false}
-          // validateOnChange={false}
         >
-          {({ isSubmitting, errors, touched/* , values, handleChange, setErrors */ }) => (
+          {({ isSubmitting, errors, touched }) => (
             <Form>
               <div className="form-group">
                 <Field
